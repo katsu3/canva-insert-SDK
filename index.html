@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <script src="https://sdk.canva.com/js/api.js"></script>
+  <script defer src="./app.js"></script>
+  <script defer src="./drive.js"></script>
+</head>
+
+<body>
+  <h2>Google Drive → Canva 自動画像配置</h2>
+
+  <div>
+    <input id="folderId" placeholder="Google Drive Folder ID" style="width: 100%" />
+    <button id="load">画像一覧を読み込む</button>
+  </div>
+
+  <div id="fileList"></div>
+
+  <button id="insertAll">すべての画像を自動配置</button>
+</body>
+</html>

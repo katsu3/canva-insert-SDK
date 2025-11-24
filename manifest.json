@@ -1,0 +1,11 @@
+{
+  "name": "Auto Image Inserter",
+  "version": "0.0.1",
+  "entry": "index.html",
+  "permissions": {
+    "design": {
+      "read": "none",
+      "write": "full"
+    }
+  }
+}
