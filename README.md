@@ -9,9 +9,19 @@
 3. 「APIとサービス」→「ライブラリ」で「Google Drive API」を有効化
 4. 「APIとサービス」→「認証情報」→「認証情報を作成」→「APIキー」
 5. 作成されたAPIキーをコピー
-6. `bundle.js` の `YOUR_API_KEY_HERE` を取得したAPIキーに置き換え
 
-### 2. ローカルサーバーの起動
+### 2. 環境変数の設定
+
+1. `configs/.env.example` をコピーして `configs/.env` ファイルを作成
+   ```bash
+   cp configs/.env.example configs/.env
+   ```
+2. `configs/.env` ファイルを開き、取得したAPIキーを設定
+   ```
+   GOOGLE_API_KEY=your_actual_api_key_here
+   ```
+
+### 3. ローカルサーバーの起動
 
 ```bash
 python3 server.py

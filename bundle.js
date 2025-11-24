@@ -1,10 +1,31 @@
 console.log('[Bundle] Loading Canva App bundle.js');
 
-// Google Drive API設定
-const GOOGLE_API_KEY = 'YOUR_API_KEY_HERE'; // Google Cloud ConsoleでAPIキーを取得
+// 設定を読み込むまで待機
+let GOOGLE_API_KEY = '';
+
+// config.jsを読み込んでAPIキーを取得
+async function loadConfig() {
+  try {
+    const script = document.createElement('script');
+    script.src = 'http://localhost:8080/config.js';
+    await new Promise((resolve, reject) => {
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+    GOOGLE_API_KEY = window.CONFIG?.GOOGLE_API_KEY || '';
+    console.log('[Bundle] Config loaded, API key:', GOOGLE_API_KEY ? 'Found' : 'Not found');
+  } catch (err) {
+    console.error('[Bundle] Failed to load config:', err);
+  }
+}
 
 // Google Drive API
 async function listDriveFiles(folderId) {
+  if (!GOOGLE_API_KEY) {
+    throw new Error('Google API Key is not configured. Please check .env file.');
+  }
+  
   const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&fields=files(id,name,webContentLink,thumbnailLink,webViewLink)&key=${GOOGLE_API_KEY}`;
   const res = await fetch(url);
   
@@ -20,6 +41,9 @@ async function listDriveFiles(folderId) {
 // アプリのメインロジック
 async function initApp() {
   console.log('[Bundle] Initializing app');
+  
+  // 設定を読み込み
+  await loadConfig();
   
   // UIを動的に作成
   const container = document.createElement('div');
