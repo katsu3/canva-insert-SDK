@@ -1,9 +1,18 @@
 console.log('[Bundle] Loading Canva App bundle.js');
 
+// Google Drive API設定
+const GOOGLE_API_KEY = 'YOUR_API_KEY_HERE'; // Google Cloud ConsoleでAPIキーを取得
+
 // Google Drive API
 async function listDriveFiles(folderId) {
-  const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&fields=files(id,name,webContentLink,thumbnailLink,webViewLink)`;
+  const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&fields=files(id,name,webContentLink,thumbnailLink,webViewLink)&key=${GOOGLE_API_KEY}`;
   const res = await fetch(url);
+  
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(`Google Drive API error: ${error.error?.message || res.statusText}`);
+  }
+  
   const json = await res.json();
   return json.files || [];
 }
